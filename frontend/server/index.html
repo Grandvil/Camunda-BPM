@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Регистрация нового пользователя</title>
+    <meta name="robots" content="noindex, nofollow">
+    <!-- Include CSS File Here -->
+    <script type="text/javascript"
+        src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=VMYrrOTShxdNWbGN-TvMf71oskWAiZls6hoBjXxG_-0tNeMh921bPjiu8-r2ABR-sJFnGz7KZ9BE6YD4_jCpoKCz2kxKHd_kXefzpIcKTXTjChxQKVrQ28698Wt0abZqYjLrjtr-bLdrEWilfgya5Q"
+        charset="UTF-8"></script>
+    <style>
+        /* Below line is used for online Google font */
+        @import url(http://fonts.googleapis.com/css?family=Droid+Serif);
+
+        h2 {
+            text-align: center;
+            font-size: 24px;
+        }
+
+        hr {
+            margin-bottom: 30px;
+        }
+
+        div.container {
+            display: flex;
+            font-family: 'Droid Serif', serif;
+            position: relative;
+            justify-content: space-around;
+            margin-top: 40px;
+        }
+
+        div.main {
+            width: 320px;
+            float: left;
+            padding: 10px 55px 40px;
+            background-color: rgba(187, 255, 184, 0.65);
+            border: 15px solid white;
+            box-shadow: 0 0 10px;
+            border-radius: 2px;
+            font-size: 13px;
+        }
+
+        input[type=text],
+        input[type=email],
+        input[type=date],
+        [type=password] {
+            width: 97.7%;
+            height: 34px;
+            padding-left: 5px;
+            margin-bottom: 20px;
+            margin-top: 8px;
+            box-shadow: 0 0 5px #00F5FF;
+            border: 2px solid #00F5FF;
+            color: #4f4f4f;
+            font-size: 16px;
+        }
+
+        label {
+            color: #464646;
+            text-shadow: 0 1px 0 #fff;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        #register {
+            font-size: 20px;
+            margin-top: 15px;
+            background: linear-gradient(#22abe9 5%, #36caf0 100%);
+            border: 1px solid #0F799E;
+            padding: 7px 35px;
+            color: white;
+            text-shadow: 0px 1px 0px #13506D;
+            font-weight: bold;
+            border-radius: 2px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        #register:hover {
+            background: linear-gradient(#36caf0 5%, #22abe9 100%);
+        }
+    </style>
+    <!-- Include JS File Here -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="main">
+            <form class="form" method="post" action="#">
+                <h2>Регистрация нового пользователя</h2>
+                <label>Имя :</label>
+                <input type="text" name="firstname" id="firstname">
+                <label>Фамилия :</label>
+                <input type="text" name="lastname" id="lastname">
+                <label>Дата рождения :</label>
+                <input type="date" name="dateofbirth" id="dateofbirth">
+                <label>Электронная почта :</label>
+                <input type="email" name="email" id="email">
+                <label>Номер телефона :</label>
+                <input type="text" name="phonenumber" id="phonenumber">
+                <label>Пароль :</label>
+                <input type="password" name="password" id="password">
+                <label>Повторите пароль :</label>
+                <input type="password" name="cpassword" id="cpassword">
+                <input type="button" name="register" id="register" value="Зарегистрироваться">
+            </form>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $("#register").click(function () {
+                    var firstname = $("#firstname").val();
+                    var lastname = $("#lastname").val();
+                    var dateofbirth = $("#dateofbirth").val();
+                    var email = $("#email").val();
+                    var phonenumber = $("#phonenumber").val();
+                    var password = $("#password").val();
+                    var cpassword = $("#cpassword").val();
+                    if (firstname == '' || lastname == '' || dateofbirth == '' || email == '' || phonenumber == '' || password == '' || cpassword == '') {
+                        alert("Пожалуйста, заполните все поля!");
+                    } else if ((password.length) < 8) {
+                        alert("Длина пароля должна быть не менее 8 символов!");
+                    } else if (password!=cpassword) {
+                        alert("Ваши пароли не совпадают. Попробуйте ещё раз.");
+                    } else {
+                        fetch('/test', {
+                            method: 'post',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                "variables": {
+                                    "firstname": {
+                                        "value": firstname
+                                    },
+                                    "lastname": {
+                                        "value": lastname
+                                    },
+                                    "dateofbirth": {
+                                        "value": new Date(dateofbirth).toISOString().replace(".000Z",".0+0000"),
+                                        "type" : "date"
+                                    },
+                                    "email": {
+                                        "value": email
+                                    },
+                                    "phonenumber": {
+                                        "value": phonenumber
+                                    },
+                                    "password": {
+                                        "value": password
+                                    },
+                                    "cpassword": {
+                                        "value": cpassword
+                                    },
+                                },
+                                "businessKey": "myBusinessKey"
+                            })
+                        }).then(data => {
+                            if (data.ended != false) {
+                                $("form")[0].reset();
+                            }
+                            alert("Спасибо! Ваша заявка на регистрацию принята. Письмо с решением придёт Вам на почту.");
+                        })
+                    }
+                });
+            });
+        </script>
+</body>
+
+</html>

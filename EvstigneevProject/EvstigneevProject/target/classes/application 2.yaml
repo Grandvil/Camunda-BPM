@@ -1,0 +1,15 @@
+# spring.datasource.url: jdbc:h2:file:./camunda-h2-database
+
+camunda.bpm.admin-user:
+  id: Grandvil
+  password: SN349aEf
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/camunda
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
