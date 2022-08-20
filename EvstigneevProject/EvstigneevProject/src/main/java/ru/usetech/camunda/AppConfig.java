@@ -20,8 +20,8 @@ public class AppConfig {
 
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
-        mailSender.setUsername("Grandvil19991999@gmail.com");
-        mailSender.setPassword("aemrdmajfhixpfap");
+        mailSender.setUsername("Grandvil19991999@gmail.com"); // Здесь пишем почту, с которой будет рассылка
+        mailSender.setPassword("aemrdmajfhixpfaphh"); // Здесь пароль от почты, который нужно создать в настройках двухфакторной аутентификации Гугла
 
         Properties properties = new Properties();
 
